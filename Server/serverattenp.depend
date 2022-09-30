@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1664576798 source:d:\tbrbserver\server\main.cpp
+	<SFML/Network.hpp>
+	<iostream>
+
