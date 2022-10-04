@@ -13,7 +13,15 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="../SFML-2.5.1/include" />
 				</Compiler>
+				<Linker>
+					<Add library="../SFML-2.5.1/lib/libsfml-graphics.a" />
+					<Add library="../SFML-2.5.1/lib/libsfml-network.a" />
+					<Add library="../SFML-2.5.1/lib/libsfml-system.a" />
+					<Add library="../SFML-2.5.1/lib/libsfml-window.a" />
+					<Add directory="../SFML-2.5.1/lib" />
+				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/serverattenp" prefix_auto="1" extension_auto="1" />
@@ -33,6 +41,7 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="main.cpp" />
+		<Unit filename="server.hpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

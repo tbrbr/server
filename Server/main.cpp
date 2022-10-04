@@ -1,42 +1,47 @@
 #include <SFML/Network.hpp>
 #include <iostream>
+#include <string.h>
 
 using namespace sf;
 using namespace std;
 
+
+void recieveData(UdpSocket & socket, IpAddress & ip, char data[], unsigned short port){
+    
+    sf::IpAddress sender;
+    size_t received;
+    if (socket.receive(data, 100, received, sender, port) != sf::Socket::Done)
+    {
+        cout << "erro ao receber dados" << endl;
+    }
+    std::cout << "Received " << received << " bytes from " << sender << " on port " << port << std::endl;
+
+}
+
+void SendData(UdpSocket & socket, const char * message, IpAddress & ip, unsigned short port){
+    
+    if (socket.send(message, strlen(message) + 1, ip, port) != sf::Socket::Done)
+    {
+        std::cout << "Falha na comunicação com o servidor" << std::endl;
+    }
+}
+
 int main()
-{
-	TcpSocket socket;
-	IpAddress ip = IpAddress::getLocalAddress();
-
-	char connectionType, mode;
-	char buffer[1000];
-	size_t received;
-
-	cout << "Enter (s) for Server, Enter (c) for client: " << endl;
-	cin >> connectionType;
-
-	if (connectionType == 's') {
-		TcpListener listener;
-		listener.listen(2000);
-		cout << "================\n";
-		listener.accept(socket);
-		socket.send("Mensagem Enviada com sucesso", 30);
-
-	}
-	else if(connectionType == 'c') {
-		socket.connect(ip, 2000);
-		string message;
-		cout << "Digite a mensagem a ser enviada: ";
-		getchar();
-		getline(cin, message);
-		socket.send(message.c_str(), message.length() + 1);
-	}
-
-	socket.receive(buffer, sizeof(buffer), received);
-
-	cout << buffer << endl;
+{   
+    UdpSocket socket;
+    IpAddress ip = IpAddress::getLocalAddress();
 
 
+// bind the socket to a port
+    if (socket.bind(2000) != sf::Socket::Done)
+    {
+        cout << "Error" << endl;
+    }
+
+    char data[1024];
+
+    recieveData(socket, ip, data, 2000);
+    std::cout << data << std::endl;
+    SendData(socket, "insanoviu", ip, 2001);
 }
 
